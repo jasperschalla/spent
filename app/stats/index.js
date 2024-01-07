@@ -31,15 +31,34 @@ const statStyle = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
     },
+    plotHeader: {
+        color: "white",
+        fontSize: 20,
+        fontWeight: "bold",
+        marginLeft: 115,
+        marginBottom: 10
+    },
     plotContainer : {
         display: "flex",
         justifyContent: "center",
         marginBottom: 40
     },
     plot: {
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+/*         display: "flex",
+        justifyContent: "center",
+        alignItems: "start",
+        marginBottom: 20,
+        paddingTop: 15,
+        backgroundColor: "#20211e",
+        marginVertical: 15,
+        borderRadius: 20, */
+    },
+    scrollContainer: {
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "start",
         marginBottom: 20,
         paddingTop: 15,
         backgroundColor: "#20211e",
@@ -56,7 +75,6 @@ const StatPage = () => {
         return {...expense, group: expense.date.slice(0,7)}
     });
 
-    console.log(expenses)
 
     //`${new Date(expense.date).getFullYear()}-${new Date(expense.date).getMonth()+1}`
 
@@ -64,7 +82,6 @@ const StatPage = () => {
         return new Date(a.date) - new Date(b.date)
     }), "type")
 
-    console.log(groupedExpenses)
 
     return (
         <View style={statStyle.background}>
@@ -89,12 +106,12 @@ const StatPage = () => {
                     })
 
                     return (
+                        <ScrollView contentContainerStyle={statStyle.scrollContainer} horizontal={true} key={key}>
                         <View style={statStyle.plot} key={key}>
-
-                            <Text style={statStyle.headerText}>{key}</Text>
+                            <Text style={statStyle.plotHeader}>{key}</Text>
                             <BarChart
                                 data={{
-                                labels: monthlyGroupExpensesArray.map(item => item.name),
+                                labels: monthlyGroupExpensesArray.length<=4? monthlyGroupExpensesArray.map(item => item.name): monthlyGroupExpensesArray.map(item => `${item.name.slice(2,4)}-${item.name.slice(5,7)}`),
                                 datasets: [
                                     {
                                         data: monthlyGroupExpensesArray.map(item => item.amount),
@@ -105,8 +122,8 @@ const StatPage = () => {
                                     },
                                 ],
                                 }}
-                                width={300}
-                                height={200}
+                                width={monthlyGroupExpensesArray.length*50 <= 310? 310 : monthlyGroupExpensesArray.length*50}
+                                height={180}
                                 yAxisLabel={'€'}
                                 chartConfig={{
                                     width: 300,
@@ -114,7 +131,8 @@ const StatPage = () => {
                                     backgroundColor: '#20211e',
                                     backgroundGradientFrom: '#20211e',
                                     backgroundGradientTo: '#20211e',
-                                    decimalPlaces: 2,
+                                    decimalPlaces: 0,
+                                    barPercentage: 0.7,
                                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                                     style: {
                                         borderRadius: 16,
@@ -130,6 +148,7 @@ const StatPage = () => {
                                 showValuesOnTopOfBars={true}
                             />
                         </View>
+                        </ScrollView>
                     )
                 })
             }

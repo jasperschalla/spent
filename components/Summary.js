@@ -140,8 +140,8 @@ export const Summary = ({ expenses, typeItems, timeType, selectedMonth }) => {
                     seriesAcc?
                     seriesAcc.map((item) => {
                         return(
-                            <View key={item.id} style={{display: "flex", flexDirection: "row", alignItems: "center", padding: 5, backgroundColor: item.color??"grey", borderRadius: 20, margin: 5}}>
-                                <Text key={item.id} style={{color: "white"}}>{item.name}</Text>
+                            <View key={item.name} style={{display: "flex", flexDirection: "row", alignItems: "center", padding: 5, backgroundColor: item.color??"grey", borderRadius: 20, margin: 5}}>
+                                <Text key={item.name} style={{color: "white"}}>{item.name}</Text>
                             </View>
                         )
                     }):null
