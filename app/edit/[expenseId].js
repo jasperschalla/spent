@@ -96,7 +96,6 @@ const EditPage = () => {
             amount: amount.replace(",",".") * 1,
             date: date.toISOString()
         }
-        console.log(expense)
         updateExpense(db,expense,setExpenses)
         router.push("/")
     }
